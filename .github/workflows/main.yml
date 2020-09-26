@@ -16,7 +16,9 @@ jobs:
       uses: actions/checkout@v2
     
     - uses: hashicorp/setup-terraform@v1
-    - run: terraform init -backend-config="token=${{ secrets.HASHICORP_TOKEN }}" -backend-config="organization=${{ secrets.HASHICORP_ORGANIZATION }}"
+    - run: terraform init \
+      -backend-config="token=${{ secrets.HASHICORP_TOKEN }}" \
+      -backend-config="organization=${{ secrets.HASHICORP_ORGANIZATION }}"
 
     - id: plan
       run: terraform plan -no-color

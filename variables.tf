@@ -1,8 +1,4 @@
-﻿variable "region" {
-  default = "eu-west-1"
-}
-
-variable "dns_zone" {
+﻿variable "dns_zone" {
   default = "publate.com"
 }
 

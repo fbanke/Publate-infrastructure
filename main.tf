@@ -13,3 +13,11 @@ resource "aws_route53_record" "www" {
   ttl     = "300"
   records = [var.load_balancer]
 }
+
+terraform {
+  backend "remote" {
+    workspaces {
+      name = "Publate-infrastructure-prod"
+    }
+  }
+}

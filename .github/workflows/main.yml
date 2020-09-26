@@ -23,11 +23,11 @@ jobs:
         aws-region: eu-west-1
 
     - uses: hashicorp/setup-terraform@v1
-    - run: terraform init
+    - run: terraform init -backend-config="token=${{ secrets.HASHICORP_TOKEN }}" -backend-config="organization=${{ secrets.HASHICORP_ORGANIZATION }}"
 
     - id: plan
       run: terraform plan -no-color
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve 

@@ -6,6 +6,6 @@ variable "api_domain" {
   default = "api.publate.com"
 }
 
-variable "load_balancer" {
-  default = "LB-6bfce181c494955b.elb.eu-west-1.amazonaws.com"
+variable "api_aws_acm_certificate_arn" {
+  default = ""
 }

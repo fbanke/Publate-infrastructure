@@ -28,13 +28,17 @@ resource "aws_launch_configuration" "ecs_launch_config" {
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
   security_groups      = [aws_security_group.ecs_sg.id]
   user_data            = "#!/bin/bash\necho ECS_CLUSTER=publate-cluster >> /etc/ecs/ecs.config"
-  instance_type        = "t2.micro"
+  instance_type        = "t3.nano"
   associate_public_ip_address = true
 }
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
   name                      = "asg"
-  vpc_zone_identifier       = [aws_subnet.pub_subnet.id]
+  vpc_zone_identifier       = [
+    aws_subnet.pub_subnet[0].id,
+    aws_subnet.pub_subnet[1].id,
+    aws_subnet.pub_subnet[2].id
+  ]
   launch_configuration      = aws_launch_configuration.ecs_launch_config.name
 
   desired_capacity          = 1
@@ -69,6 +73,12 @@ resource "aws_ecs_service" "api" {
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 2
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.main.id
+    container_name   = "api"
+    container_port   = 80
+  }
 }
 
 output "ecr_repository_api_endpoint" {

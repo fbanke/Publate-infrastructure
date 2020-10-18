@@ -11,9 +11,13 @@ resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
 }
 
+data "aws_availability_zones" "available" {}
+
 resource "aws_subnet" "pub_subnet" {
+  count = length(data.aws_availability_zones.available.names)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = "10.0.1.0/24"
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+  cidr_block = "10.0.${1+count.index}.0/24"
 }
 
 resource "aws_route_table" "public" {
@@ -26,6 +30,6 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  subnet_id      = aws_subnet.pub_subnet.id
+  subnet_id      = aws_subnet.pub_subnet[0].id
   route_table_id = aws_route_table.public.id
 }

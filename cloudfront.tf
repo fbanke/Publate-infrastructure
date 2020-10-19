@@ -4,7 +4,7 @@
       http_port              = 80
       https_port             = 443
       origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
+      origin_ssl_protocols   = ["TLSv1.2", "SSLv3", "TLSv1", "TLSv1.1"]
     }
     domain_name = aws_alb.main.dns_name
     origin_id = "ELB-${aws_alb.main.name}"
@@ -29,13 +29,9 @@
     }
 
     viewer_protocol_policy = "allow-all"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
   }
-
-  # The cheapest priceclass
-  price_class = "PriceClass_100"
+  
+  price_class = "PriceClass_All"
 
   # This is required to be specified even if it's not used.
   restrictions {

@@ -30,6 +30,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  subnet_id      = aws_subnet.pub_subnet[0].id
+  count = length(data.aws_availability_zones.available.names)
+  subnet_id      = aws_subnet.pub_subnet[count.index].id
   route_table_id = aws_route_table.public.id
 }

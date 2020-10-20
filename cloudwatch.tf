@@ -6,6 +6,7 @@
   comparison_operator = "LessThanThreshold"
   evaluation_periods = 1
   alarm_actions = [var.sns_alarm_arn]
+  insufficient_data_actions = [var.sns_alarm_arn]
   period = 5*60
   
   namespace = "AWS/ApplicationELB"

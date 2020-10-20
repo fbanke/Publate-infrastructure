@@ -9,3 +9,7 @@ variable "api_domain" {
 variable "api_aws_acm_certificate_arn" {
   default = ""
 }
+
+variable "sns_alarm_arn" {
+  default = ""
+}

@@ -26,6 +26,7 @@
       cookies {
         forward = "none"
       }
+      headers = [ "*" ]
     }
 
     viewer_protocol_policy = "allow-all"

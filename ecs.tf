@@ -29,6 +29,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
   security_groups      = [aws_security_group.ecs_sg.id]
   user_data            = "#!/bin/bash\necho ECS_CLUSTER=publate-cluster >> /etc/ecs/ecs.config"
   instance_type        = "t3.nano"
+  key_name = "patch"
   associate_public_ip_address = true
 }
 
@@ -68,7 +69,7 @@ resource "aws_ecs_service" "api" {
   cluster         = aws_ecs_cluster.ecs_cluster.id
   desired_count   = 1
   deployment_minimum_healthy_percent = 0
-  deployment_maximum_percent = 200
+  deployment_maximum_percent = 100
 
   load_balancer {
     target_group_arn = aws_alb_target_group.main.id
